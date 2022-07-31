@@ -268,6 +268,8 @@
   challenge .tl_set:N         = \l__challenge_tl,
   challenge .initial:n        = 1,
   challenge .value_required:n = true,
+  proficiency-bonus .tl_set:N         = \l__proficiency_bonus_tl,
+  proficiency-bonus .value_required:n = true,
 }
 
 \cs_new_protected_nopar:Npn \__dnd_monster_details:
@@ -281,7 +283,13 @@
       \__dnd_if_monster_attribute:nn {\l__condition_immunities_tl}   {\cimmname}
       \item [\sensesname]    \l__senses_tl
       \item [\languagesname] \l__languages_tl
-      \item [\challengename] \__dnd_cr_xp:N {\l__challenge_tl}
+      \tl_if_empty:NTF { \l__proficiency_bonus_tl }
+        { \item [\challengename] \__dnd_cr_xp:N {\l__challenge_tl} }
+        {
+          \item [\challengename] \__dnd_cr_xp:N {\l__challenge_tl}
+          \hfill
+          \textbf{\profbonusname}~\l__proficiency_bonus_tl
+        }
     \end {__dnd_monster_attributes}
 }
 
